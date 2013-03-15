@@ -13,7 +13,13 @@ class IronMQChannel(BaseChannel):
         if self._client is None:
             conninfo = self.connection.client
             hostname = conninfo.hostname
-            self._client = IronMQ(project_id = conninfo.userid, token = conninfo.password, host = None if hostname == "localhost" else hostname)
+            self._client = IronMQ(
+                project_id = conninfo.userid,
+                token = conninfo.password,
+                host = None if hostname == "localhost" else hostname,
+                pool_connections=20,
+                pool_maxsize=40,
+            )
 
         return self._client
 
